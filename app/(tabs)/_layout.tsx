@@ -7,16 +7,17 @@ import { Container } from '~/components/Container';
 export default function TabLayout({ children }: { children: React.ReactNode }) {
   return (
       <>
-        <Header />
-        <Container>
+        <Header/>
+        <Container className="flex-1">
           {children}
         </Container>
+        {/* footer */}
         <Tabs
           screenOptions={{
             headerShown: false,
             tabBarShowLabel: false,
             tabBarStyle: {  //없어서 
-              position: 'absolute',
+              position: 'fixed',
               height: 60,
               backgroundColor: '#fff',
               borderTopLeftRadius: 24,

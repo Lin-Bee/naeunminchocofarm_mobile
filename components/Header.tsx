@@ -2,7 +2,7 @@ import { useRouter, usePathname } from 'expo-router';
 import { View, Text, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-export default function Header({title}) {
+export default function Header() {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -21,10 +21,10 @@ export default function Header({title}) {
             <Ionicons name="chevron-back" size={24} color="black" />
           </Pressable>
         )}
-        <Text className="text-lg font-bold">{title}</Text>
+        <Text className="text-lg font-bold">title</Text>
       </View>
 
-      <View className="flex-row space-x-4">
+      <View className="flex-row">
         <Ionicons className='mr-2' name="notifications-outline" size={24} color="black" />
         <Pressable onPress={()=>{router.push('/login')}}>
           <Ionicons name="person-outline" size={24} color="black" />

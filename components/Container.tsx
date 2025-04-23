@@ -4,7 +4,7 @@ export const Container = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <TouchableNativeFeedback onPress={Keyboard.dismiss}>
-        <SafeAreaView className="flex-1 bg-white">{children}</SafeAreaView>
+        <SafeAreaView className="flex-1 bg-white font-regular">{children}</SafeAreaView>
       </TouchableNativeFeedback>
     </>)
   ;

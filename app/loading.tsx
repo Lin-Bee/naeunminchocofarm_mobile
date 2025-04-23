@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-const loading = () => {
+const Loading = () => {
   return (
     <View>
       <Text>loading</Text>
@@ -9,6 +9,4 @@ const loading = () => {
   )
 }
 
-export default loading
-
-const styles = StyleSheet.create({})
+export default Loading
