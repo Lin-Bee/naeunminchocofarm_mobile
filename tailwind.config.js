@@ -4,7 +4,19 @@ module.exports = {
 
   presets: [require('nativewind/preset')],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        thin: ['PaperlogyThin'],
+        extralight: ['PaperlogyExtraLight'],
+        light: ['PaperlogyLight'],
+        regular: ['PaperlogyRegular'],
+        medium: ['PaperlogyMedium'],
+        semibold: ['PaperlogySemiBold'],
+        bold: ['PaperlogyBold'],
+        extrabold: ['PaperlogyExtraBold'],
+        black: ['PaperlogyBlack'],
+      },
+    },
   },
   plugins: [],
 };
