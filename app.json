@@ -3,6 +3,7 @@
     "name": "ncf-mobile",
     "slug": "ncf-mobile",
     "version": "1.0.0",
+    "assets": ["./assets/fonts"],
 
     "scheme": "ncf-mobile",
     "web": {

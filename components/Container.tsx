@@ -1,9 +1,14 @@
-import { SafeAreaView } from 'react-native';
+import { Keyboard, SafeAreaView, TouchableNativeFeedback } from 'react-native';
 
 export const Container = ({ children }: { children: React.ReactNode }) => {
-  return <SafeAreaView className={styles.container}>{children}</SafeAreaView>;
+  return (
+    <>
+      <TouchableNativeFeedback onPress={Keyboard.dismiss}>
+        <SafeAreaView className="flex-1 bg-white">{children}</SafeAreaView>
+      </TouchableNativeFeedback>
+    </>)
+  ;
 };
 
-const styles = {
-  container: 'flex flex-1 m-6',
-};
+
+// 쓰고있음 ncf
