@@ -4,11 +4,11 @@ import PageLayout from '../../../components/PageLayout';
 import SensorTab from '../../../farms/components/SensorTab';
 import FarmController from '../../../farms/components/FarmController';
 import SectionArea from '../../../farms/components/SectionArea';
-import {subscribeFarmSettings, subscribeFarmStatus} from '../../../farms/subscribe_manager'
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import SensorData from '../../../farms/components/SensorData';
 import Loading from '../../../app/loading';
+import { subscribeFarmSettings, subscribeFarmStatus } from '../../../lib/smart_farm/subscribe_manager';
 
 const SENSOR_TABS = [
   { key: "soil_moisture", label: "토양습도", unit: "" },
