@@ -1,12 +1,13 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import PageLayout from 'components/PageLayout';
+import MainScreen from 'home/MainScreen';
+import React from 'react';
 
-const index = () => {
+const AppHome = () => {
   return (
-    <View>
-      <Text>index</Text>
-    </View>
-  )
-}
+    <PageLayout>
+      <MainScreen/>
+    </PageLayout>
+  );
+};
 
-export default index
+export default AppHome;

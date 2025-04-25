@@ -6,7 +6,6 @@ import memberApi from '../../../apis/memberApi';
 const FarmIndex = () => {
   const [farms, setFarms] = useState([]);
   
-
   useEffect(() => {
     memberApi.getFarms()
       .then((res) => {

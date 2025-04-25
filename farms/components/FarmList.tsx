@@ -1,5 +1,6 @@
 import { View, Text, Image, Pressable, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
+// import memFarmer from '../../../assets/images/layout/mem-farmer.png';
 
 interface Member {
   id: number;
@@ -60,11 +61,7 @@ const FarmList = ({ farms }: FarmListProps) => {
                 <Text className="text-sm text-gray-500 mt-1">운영 시작일: {farm.useDate}</Text>
               </View>
 
-              <Image
-                source={require('../../assets/images/layout/mem-farmer.png')}
-                className="w-12 h-12"
-                resizeMode="contain"
-              />
+              {/* <Image source={memFarmer} /> */}
             </View>
 
             <View className="items-end pt-4">
@@ -94,11 +91,11 @@ const FarmList = ({ farms }: FarmListProps) => {
                 <Text className="text-sm text-gray-500 mt-1">운영 시작일: </Text>
               </View>
 
-              <Image
+              {/* <Image
                 source={require('../../assets/images/layout/mem-farmer.png')}
                 className="w-12 h-12"
                 resizeMode="contain"
-              />
+              /> */}
             </View>
 
             <View className="items-end pt-4">

@@ -21,7 +21,7 @@ const SENSOR_TABS = [
 
 const detail = () => {
   //일단은 any로 잡아두지만 내가 상태/셋팅/업데이트에 뭐들어갈지 정해지면 수정하기
-  const {farmId} = useLocalSearchParams() as {farmId : string};
+  const {farmId} = useLocalSearchParams() as {farmId : any};
   const [farmUuid, setFarmUuid] = useState<string | undefined>(undefined);
   const router = useRouter();
   const [settings, setSettings] = useState<any>(undefined);
@@ -30,18 +30,19 @@ const detail = () => {
   const [activeTab, setActiveTab] = useState("soil_moisture");
 
   function bindFarmUuid(farmId : string) {
-    memberApi.getFarmDetail('help')
-      .then(res => {
-        if (!res.data) {
-          alert("스마트팜을 보유하고 있지 않습니다. 이전 화면으로 이동합니다.");
-          router(-1);
-        }
-        setFarmUuid(res.data.uuid);
-      })
-      .catch(e => console.error(e));
+    // memberApi.getFarmDetail(farmId)
+    //   .then(res => {
+    //     if (!res.data) {
+    //       alert("스마트팜을 보유하고 있지 않습니다. 이전 화면으로 이동합니다.");
+    //       router.back();
+    //     }
+    //     setFarmUuid(res.data.uuid);
+    //   })
+    //   .catch(e => console.error(e));
+    setFarmUuid('0bbd8aa9-02af-4dc6-af0e-c1c5aaa45790');
   }
 
-  function connectFarm(farmUuid) {
+  function connectFarm(farmUuid: string) {
     const [unsubscribeSettings, _updateSettings] = subscribeFarmSettings(farmUuid, setSettings);
     // 탭내 컨트롤러에서 저장된 셋팅을 유지 저장
     updateSettings.current = _updateSettings;
@@ -70,7 +71,7 @@ const detail = () => {
   }, [farmUuid]);
 
   //그 팜 내에서 컨트롤러 센서이름이 같은애들뿌려주기 
-  function farmDataProvider(dataName) {
+  function farmDataProvider(dataName:string) {
     const data = status.controllers?.map(c => c.sensor_datas?.find(s => s.name === dataName)?.value)?.find(x => true);
     return data;
   }

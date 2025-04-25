@@ -1,8 +1,6 @@
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { Pressable, Text, View } from 'react-native';
-import Header from '~/components/Header';
-import { Container } from '~/components/Container';
 
 export default function TabLayout({ children }: { children: React.ReactNode }) {
   return (

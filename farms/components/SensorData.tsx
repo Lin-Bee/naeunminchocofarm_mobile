@@ -3,7 +3,7 @@ import { Text, View, StyleSheet } from 'react-native';
 
 interface SensorDataProps {
   name: string;
-  value: number | string;
+  value: any;
 }
 
 export default function SensorData({ name, value }: SensorDataProps) {
@@ -23,23 +23,23 @@ export default function SensorData({ name, value }: SensorDataProps) {
   }
 }
 
-const AirTempData = ({ value }: { value: number | string }) => (
+const AirTempData = ({ value }: { value: any }) => (
   <Text>{value}℃</Text>
 );
 
-const HumidityData = ({ value }: { value: number | string }) => (
+const HumidityData = ({ value }: { value: any }) => (
   <Text>{value}%</Text>
 );
 
-const LdrData = ({ value }: { value: number | string }) => (
+const LdrData = ({ value }: { value: any }) => (
   <Text>{value}</Text>
 );
 
-const SoilMoistureData = ({ value }: { value: number | string }) => (
+const SoilMoistureData = ({ value }: { value: any }) => (
   <Text>{value}</Text>
 );
 
-const MotionData = ({ value }: { value: string }) => {
+const MotionData = ({ value }: { value: any }) => {
   const isDetected = value === 'detected';
   return (
     <View

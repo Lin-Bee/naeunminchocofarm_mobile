@@ -1,6 +1,11 @@
 import { Pressable, View } from "react-native";
 
-export default function ToggleButton({value, onChange = () => {}}) {
+type ToggleButtonProps = {
+  value: boolean;
+  onChange?: (value: boolean) => void;
+};
+
+export default function ToggleButton({value, onChange = () => {}}: ToggleButtonProps) {
   const toggleBtnOuterBackgroundColorCss = value ? "bg-[#4CAF50]" : "bg-[#ccc]";
   const toggleBtnOuterCss = `relative inline-block w-[60px] h-[30px] rounded-full hover:cursor-pointer transaction-colors duration-300 ease-in-out ${toggleBtnOuterBackgroundColorCss}`;
   const toggleBtnInnerLeftCss = value ? "left-[33px]" : "left-[3px]";
