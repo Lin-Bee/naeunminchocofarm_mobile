@@ -1,12 +1,27 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react';
+import PageLayout from '../../../components/PageLayout';
+import FarmList from '../../../farms/components/FarmList';
+import memberApi from '../../../apis/memberApi';
 
 const FarmIndex = () => {
-  return (
-    <View>
-      <Text>마이팜리스트</Text>
-    </View>
-  )
-}
+  const [farms, setFarms] = useState([]);
+  
 
-export default FarmIndex
+  useEffect(() => {
+    memberApi.getFarms()
+      .then((res) => {
+        setFarms(res.data);
+      })
+      .catch((err) => {
+        console.error('스마트팜 목록 로딩 실패:', err);
+      });
+  }, []);
+
+  return (
+    <PageLayout>
+      <FarmList farms={farms} />
+    </PageLayout>
+  );
+};
+
+export default FarmIndex;

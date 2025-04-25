@@ -1,11 +1,14 @@
-import { Keyboard, SafeAreaView, TouchableNativeFeedback } from 'react-native';
+import { Keyboard, SafeAreaView, View } from 'react-native';
 
 export const Container = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
-      <TouchableNativeFeedback onPress={Keyboard.dismiss}>
-        <SafeAreaView className="flex-1 bg-white font-regular">{children}</SafeAreaView>
-      </TouchableNativeFeedback>
+      <SafeAreaView className="flex-1 font-regular">
+        <View>
+          {children}
+          
+        </View>
+      </SafeAreaView>
     </>)
   ;
 };

@@ -33,7 +33,7 @@ const LoginScreen = () => {
   return (
     <>
       <View className="flex-1 items-center justify-center bg-white px-6 font-bold">
-        <Image source={require('../assets/content/img-login.png')} className="mb-6 h-60 w-64" />
+        <Image source={require('../assets/images/content/img-login.png')} className="mb-6 h-60 w-64" />
 
         <View className="w-full text-left">
           <Text className="mb-6 text-2xl font-bold">Login</Text>

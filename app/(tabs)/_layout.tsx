@@ -7,11 +7,6 @@ import { Container } from '~/components/Container';
 export default function TabLayout({ children }: { children: React.ReactNode }) {
   return (
       <>
-        <Header/>
-        <Container className="flex-1">
-          {children}
-        </Container>
-        {/* footer */}
         <Tabs
           screenOptions={{
             headerShown: false,
