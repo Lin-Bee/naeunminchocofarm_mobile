@@ -1,8 +1,8 @@
-import { configureStore } from "@reduxjs/toolkit";
-import signupSlice from "./count_slice";
-import authSlice, {loginInfoSelector, loginAction, logoutAction} from "./auth_slice";
-import memberApi, { LoginData } from "../apis/member_api";
-import { useDispatch, useSelector } from "react-redux";
+import { configureStore } from '@reduxjs/toolkit';
+import signupSlice from './count_slice';
+import authSlice, { loginInfoSelector, loginAction, logoutAction } from './auth_slice';
+import memberApi, { LoginData } from '../apis/member_api';
+import { useDispatch, useSelector } from 'react-redux';
 import * as SecureStore from 'expo-secure-store';
 
 // 스토어 생성
@@ -17,7 +17,6 @@ export type RootState = ReturnType<typeof store.getState>;
 
 // 로그인 정보
 export function useLoginInfo() {
-  const dispatch = useDispatch();
   const loginInfo = useSelector(loginInfoSelector);
   return loginInfo;
 }
@@ -65,5 +64,3 @@ export async function loadLoginInfo() {
     loginAction(store.dispatch, { accessToken, loginInfo });
   }
 }
-
-

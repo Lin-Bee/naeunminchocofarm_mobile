@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "./store";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from './store';
 import * as SecureStore from 'expo-secure-store';
 
 // 로그인 정보 타입 정의
@@ -18,8 +18,8 @@ interface AuthState {
 }
 
 // SecureStore 키 상수
-const ACCESS_TOKEN_KEY = "accessToken";
-const LOGIN_INFO_KEY = "loginInfo";
+const ACCESS_TOKEN_KEY = 'accessToken';
+const LOGIN_INFO_KEY = 'loginInfo';
 
 // 토큰 저장
 async function _setAccessToken(token: string) {
@@ -64,7 +64,7 @@ function _initAuthState(): AuthState {
 
 // Slice 생성
 const authSlice = createSlice({
-  name: "auth",
+  name: 'auth',
   initialState: _initAuthState(),
   reducers: {
     loginReducer: (state, action: PayloadAction<{ accessToken: string; loginInfo: LoginInfo }>) => {
@@ -83,19 +83,13 @@ const authSlice = createSlice({
 export const accessTokenSelector = (state: RootState) => state.auth.accessToken;
 export const loginInfoSelector = (state: RootState) => state.auth.loginInfo;
 
-// 로그인 함수
-export function loginAction(
-  dispatch: Function,
-  {
-    accessToken,
-    loginInfo: { id, roleName, roleFlag, loginId, name },
-  }: {
-    accessToken: string;
-    loginInfo: LoginInfo;
-  }
-) {
-  const loginInfo = { id, roleName, roleFlag, loginId, name };
+interface LoginParams {
+  accessToken: string;
+  loginInfo: LoginInfo;
+}
 
+// 로그인 함수
+export function loginAction(dispatch: Function, { accessToken, loginInfo }: LoginParams) {
   // 비동기 저장은 컴포넌트에서 처리
   dispatch(authSlice.actions.loginReducer({ accessToken, loginInfo }));
 }
