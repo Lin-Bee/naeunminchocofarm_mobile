@@ -26,7 +26,7 @@ export default function Header() {
 
       <View className="flex-row">
         <Ionicons className='mr-2' name="notifications-outline" size={24} color="black" />
-        <Pressable onPress={()=>{router.push('/login')}}>
+        <Pressable onPress={()=>{router.push('/auth/login')}}>
           <Ionicons name="person-outline" size={24} color="black" />
         </Pressable>
       </View>
