@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, TextInput, View } from 'react-native';
-import ToggleButton from '../../components/common/ToogleButton';
+import ToggleButton from '~/components/common/ToogleButton';
 
 interface SensorSettings {
   [key: string]: any;

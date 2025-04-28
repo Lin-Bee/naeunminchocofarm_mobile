@@ -17,11 +17,15 @@ export default function Header({scrollY}:HeaderProps) {
     extrapolate: 'clamp',
   })
 
+  const cleanPathname = pathname.replace(/\/$/, '');
+  const isWhiteTitle = cleanPathname === '/' || cleanPathname === '/home';
+
 
   const hideBackButtonPages = [
-    '/(tabs)/(home)/index.jsx',
-    '/(tabs)/(farms)/index.jsx',
-    '/(tabs)/(setting)/index.jsx',
+    '/',
+    '/home',
+    '/farms',
+    '/setting',
   ];
   const showBackButton = !hideBackButtonPages.includes(pathname);
 
@@ -34,14 +38,13 @@ export default function Header({scrollY}:HeaderProps) {
               <Ionicons name="chevron-back" size={28} color="black" />
             </Pressable>
           )}
-          <Text className="text-2xl font-bold">title</Text>
+          <Text className={`text-2xl font-bold ${isWhiteTitle ? 'text-white' : 'text-black'}`}>
+          title
+        </Text>
         </View>
 
         <View className="flex-row">
           <Ionicons className='mr-2' name="notifications-outline" size={28} color="black" />
-          <Pressable onPress={()=>{router.push('/login')}}>
-            <Ionicons name="person-outline" size={28} color="black" />
-          </Pressable>
         </View>
       </View>
     </Animated.View>

@@ -1,5 +1,5 @@
 import PageLayout from 'components/PageLayout';
-import MainScreen from 'home/MainScreen';
+import MainScreen from '~/home/components/MainScreen';
 import React from 'react';
 
 const AppHome = () => {

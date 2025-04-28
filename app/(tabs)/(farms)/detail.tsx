@@ -1,14 +1,14 @@
-import memberApi from '../../../apis/memberApi';
-import FarmInfo from '../../../farms/components/FarmInfo';
-import PageLayout from '../../../components/PageLayout';
-import SensorTab from '../../../farms/components/SensorTab';
-import FarmController from '../../../farms/components/FarmController';
-import SectionArea from '../../../farms/components/SectionArea';
+import memberApi from '~/apis/memberApi';
+import FarmInfo from '~/farms/components/FarmInfo';
+import PageLayout from '~/components/PageLayout';
+import SensorTab from '~/farms/components/SensorTab';
+import FarmController from '~/farms/components/FarmController';
+import SectionArea from '~/farms/components/SectionArea';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
-import SensorData from '../../../farms/components/SensorData';
-import Loading from '../../../app/loading';
-import { subscribeFarmSettings, subscribeFarmStatus } from '../../../lib/smart_farm/subscribe_manager';
+import SensorData from '~/farms/components/SensorData';
+import Loading from '~/app/loading';
+import { subscribeFarmSettings, subscribeFarmStatus } from '~/lib/smart_farm/subscribe_manager';
 
 const SENSOR_TABS = [
   { key: "soil_moisture", label: "토양습도", unit: "" },
@@ -81,7 +81,14 @@ const detail = () => {
     <>
       <PageLayout>
         {/* 스마트팜 상세 - 흰색배경에 언더바 회색 */}
-        <FarmInfo/>
+        <FarmInfo
+         farmName={farmUuid.farmName}
+         uuid={farmUuid.uuid}
+         farmAddr={farmUuid.farmAddr}
+         useDate={farmUuid.useDate}
+         crop={farmUuid.crop}
+         status={farmUuid.status}
+        />
         {/* 탭 - 흰색배경 */} 
         <SensorTab
           tabs={SENSOR_TABS}

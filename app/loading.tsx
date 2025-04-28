@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, Animated } from 'react-native';
+const loadingImg =  require('~/assets/images/content/ico-m-sec2-1.png');
 
 interface LoadingProps {
   title?: string;
@@ -28,7 +29,7 @@ export default function Loading({ title }: LoadingProps) {
       <Text className="mb-6 font-semibold text-lg text-gray-700">{title}</Text>
 
       <Image
-        source={require('../assets/images/content/ico-m-sec2-1.png')}
+        source={loadingImg}
         className="mb-6 h-32 w-32"
         resizeMode="contain"
       />
