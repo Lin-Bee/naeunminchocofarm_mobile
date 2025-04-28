@@ -12,7 +12,7 @@ axiosInstance.interceptors.request.use(
     config.headers = config.headers ?? {};
 
     // 서버가 app인지 web인지 구분하기 위한 코드
-    config.headers['clientType'] = 'app';
+    // config.headers['clientType'] = 'app';
 
     // accessToken 가져오기
     const token: string | null = await SecureStore.getItemAsync('accessToken');

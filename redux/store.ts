@@ -41,7 +41,7 @@ export async function login(loginData: LoginData) {
 
 //로그아웃 함수
 export async function logout() {
-  const res = await memberApi.logout();
+  // const res = await memberApi.logout();
 
   // SecureStore 비우기
   await SecureStore.deleteItemAsync('accessToken');

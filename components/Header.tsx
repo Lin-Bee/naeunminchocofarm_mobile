@@ -1,10 +1,12 @@
 import { useRouter, usePathname } from 'expo-router';
 import { View, Text, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useLoginInfo } from '../redux/store'; //추가
 
 export default function Header() {
   const router = useRouter();
   const pathname = usePathname();
+  const loginInfo = useLoginInfo(); //현재 로그인 정보
 
   const hideBackButtonPages = [
     '/(tabs)/(home)',
@@ -12,6 +14,16 @@ export default function Header() {
     '/(tabs)/(setting)',
   ];
   const showBackButton = !hideBackButtonPages.includes(pathname);
+
+  const handleProfilePress = () => {
+    if (loginInfo) {
+      // 로그인 되어 있으면 profile_page로 이동
+      router.push('/auth/profile_page');
+    } else {
+      // 로그인 안 되어 있으면 로그인 페이지로 이동
+      router.push('/auth/login');
+    }
+  };
 
   return (
     <View className="flex-row items-center justify-between px-4 py-3 bg-white">
@@ -30,6 +42,7 @@ export default function Header() {
           <Ionicons name="person-outline" size={24} color="black" />
         </Pressable>
       </View>
+      
     </View>
   );
 }
