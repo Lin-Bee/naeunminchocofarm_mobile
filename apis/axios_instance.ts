@@ -19,7 +19,7 @@ axiosInstance.interceptors.request.use(
 
     // 요청 시 요청헤더에 토큰을 담아서 서버에 전달
     if (token) {
-      config.headers.Authorization = token;
+      config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },

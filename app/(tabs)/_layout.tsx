@@ -43,7 +43,7 @@ export default function TabLayout({ children }: { children: React.ReactNode }) {
                   <View className="absolute -top-5 h-[80px] w-[80px] items-center justify-center rounded-full bg-white z-40 shadow-md">
                     
                     <Pressable
-                      onPress={props.onPress} // ✅ 명시적으로 전달
+                      onPress={props.onPress} 
                       accessible
                       accessibilityRole="button"
                       className="h-[70px] w-[70px] items-center justify-center rounded-full bg-green-600 shadow-xl z-50"

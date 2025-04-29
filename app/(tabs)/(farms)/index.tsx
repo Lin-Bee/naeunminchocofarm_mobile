@@ -1,24 +1,35 @@
 import React, { useEffect, useState } from 'react';
 import PageLayout from '~/components/PageLayout';
 import FarmList from '~/farms/components/FarmList';
-import memberApi from '~/apis/memberApi';
+import memberApi from '~/apis/member_api';
+import { useLoginInfo } from '~/redux/store';
+import { View } from 'react-native';
+
 
 const FarmIndex = () => {
   const [farms, setFarms] = useState([]);
-  
+  const loginInfo = useLoginInfo();
+
   useEffect(() => {
-    memberApi.getFarms()
-      .then((res) => {
-        setFarms(res.data);
-      })
-      .catch((err) => {
-        console.error('스마트팜 목록 로딩 실패:', err);
-      });
+    bindFarms();
   }, []);
+
+  function bindFarms() {
+    memberApi.getFarms()
+      .then(res => {
+        const farms = res.data;
+        setFarms(farms);
+      })
+      .catch(e => {console.log('받은 farms:', e.response);
+        console.log(loginInfo)
+      });
+  }
 
   return (
     <PageLayout>
-      <FarmList farms={farms} />
+      <View className='pt-16'>
+        <FarmList farms={farms} />
+      </View>
     </PageLayout>
   );
 };

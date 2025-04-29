@@ -2,6 +2,7 @@ import { useRouter, usePathname } from 'expo-router';
 import { View, Text, Pressable, Animated } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useLoginInfo } from '../redux/store'; //추가
+import { useEffect } from 'react';
 
 
 interface HeaderProps{
@@ -31,16 +32,6 @@ export default function Header({scrollY}:HeaderProps) {
   ];
   const showBackButton = !hideBackButtonPages.includes(pathname);
 
-  const handleProfilePress = () => {
-    if (loginInfo) {
-      // 로그인 되어 있으면 profile_page로 이동
-      router.push('/auth/profile_page');
-    } else {
-      // 로그인 안 되어 있으면 로그인 페이지로 이동
-      router.push('/auth/login');
-    }
-  };
-
   return (
     <Animated.View className="absolute bg-inherit z-50">
       <View className='w-full flex-row items-center justify-between px-4 py-5 '>
@@ -51,16 +42,13 @@ export default function Header({scrollY}:HeaderProps) {
             </Pressable>
           )}
           <Text className={`text-2xl font-bold ${isWhiteTitle ? 'text-white' : 'text-black'}`}>
-          title
+          HOME
         </Text>
         </View>
 
         <View className="flex-row">
         <Ionicons className='mr-2' name="notifications-outline" size={24} color="black" />
-        <Pressable onPress={()=>{router.push('/auth/login')}}>
-          <Ionicons name="person-outline" size={24} color="black" />
-        </Pressable>
-      </View>
+        </View>
       </View>
     </Animated.View>
   );

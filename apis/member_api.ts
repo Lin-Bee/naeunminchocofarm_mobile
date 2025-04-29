@@ -22,13 +22,27 @@ export interface LoginResponse {
 export interface Farm {
   id: number;
   memberId: number;
-  farmName: string;
+  name: string;
   uuid: string;
   useDate: string;
-  crop: string;
-  farmAddr: string;
+  cropName: string;
+  address: string;
   status: string;
+  member : LoginResponse;
 }
+
+// 센서 정보
+// export interface FarmUuid {
+//   id: number;
+//   memberId: number;
+//   name: string;
+//   farmUuid: string;
+//   useDate: string;
+//   cropName: string;
+//   address: string;
+//   status: string;
+//   member : LoginResponse;
+// }
 
 const memberApi = {
   // 로그인 요청

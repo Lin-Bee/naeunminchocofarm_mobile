@@ -1,71 +1,57 @@
-import { View, Text, Image, Pressable, ScrollView } from 'react-native';
-import { useRouter } from 'expo-router';
-const memFarmer = require('~/assets/images/layout/mem-farmer.png');
-
-interface Member {
-  id: number;
-  loginId: string;
-  name: string;
-  email: string;
-  tell: string;
-}
-interface FarmBasicProps {
-  id: number;
-  uuidId: number;
-  uuid: string;
-  farmName: string;
-  farmAddr: string;
-  useDate: string;
-  crop: string;
-  status: string;
-  member: Member;
-}
+import { router } from 'expo-router';
+import { View, Text, Image, Pressable, ScrollView, StyleSheet } from 'react-native';
+import { Farm } from '~/apis/member_api';
+const memTomato = require('~/assets/images/content/ico-farm.png');
 
 interface FarmListProps {
-  farms: FarmBasicProps[];
+  farms: Farm[];
 }
 
-const getStatusColor = (status?: string) => {
-  switch (status) {
-    case '운영중': return 'bg-green-100 text-green-600';
-    case '점검중': return 'bg-yellow-100 text-yellow-600';
-    case '폐쇄': return 'bg-red-100 text-red-600';
-    default: return 'bg-gray-200 text-gray-700';
-  }
-};
-
 const FarmList = ({ farms }: FarmListProps) => {
-  const router = useRouter();
-
-  // 15번 help씨꺼 임시로 데려오기
-  const filteredFarms = farms.filter(farm => farm.member?.id === 15);
-
+  const getStatusStyle = (status?: string) => {
+    switch (status) {
+      case '운영중':
+        return { backgroundColor: '#D1FAE5', color: '#059669' }; 
+      case '점검중':
+        return { backgroundColor: '#FEF3C7', color: '#D97706' }; 
+      case '폐쇄':
+        return { backgroundColor: '#FECACA', color: '#DC2626' }; 
+      default:
+        return { backgroundColor: '#E5E7EB', color: '#6B7280' }; 
+    }
+  };
+  
   return (
     <ScrollView className="px-4 py-4" contentContainerStyle={{ flexGrow: 1 }}>
-      {filteredFarms.length > 0 ? (
-        filteredFarms.map((farm, i) => (
-          <Pressable
-            key={farm.id || i}
-            onPress={() => router.push('/detail')}
-            className="mb-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm relative"
-          >
-            <View className={`self-start rounded-full px-2 py-0.5 ${getStatusColor(farm.status)}`}>
-              <Text className="text-xs font-semibold">{farm.status}</Text>
+      {farms?.length > 0 ? (
+        farms.map((farm, i) => (
+          <Pressable key={farm.id || i}
+                    onPress={() => router.push(`/(tabs)/(farms)/detail/${farm.id}`) }
+                    style={styles.card} >
+             <View style={styles.badgeContainer}>
+              <Text style={[styles.badge, getStatusStyle(farm.status)]}>
+                {farm.status}
+              </Text>
             </View>
 
-            <View className="flex-row justify-between items-start mt-2">
-              <View className="flex-1 pr-2">
-                <Text className="font-semibold text-lg border-b pb-1">{farm.farmName || `스마트팜 ${i + 1}`}</Text>
-                <Text className="text-sm text-gray-800 mt-1">작물 이름: {farm.crop}</Text>
-                <Text className="text-sm text-gray-600 mt-1">주소: {farm.farmAddr}</Text>
-                <Text className="text-sm text-gray-500 mt-1">운영 시작일: {farm.useDate}</Text>
+            {/* 본문 영역 */}
+            <View className="flex-row items-center">
+              <View className="mr-2">
+                <Image source={memTomato} style={styles.farmImage} resizeMode="contain" />
               </View>
 
-              {/* <Image source={memFarmer} /> */}
+              <View className="ml-2">
+                
+                <Text className="mb-2 font-bold text-lg">{farm.name || `스마트팜 ${i + 1}`}</Text>
+                <Text className="text-sm text-gray-700">작물: {farm.cropName}</Text>
+                <Text className="mt-1 text-sm text-gray-500">주소: {farm.address}</Text>
+                <Text className="mt-1 text-sm text-gray-500">운영시작일: {farm.useDate}</Text>
+              </View>
             </View>
 
-            <View className="items-end pt-4">
-              <Text className="text-sm font-semibold text-blue-600">상세보기</Text>
+            {/* 하단: 상세보기 버튼 */}
+            <View className="mt-4 items-center">
+              <Text className="font-semibold text-blue-600">GO DETAIL →</Text>
             </View>
           </Pressable>
         ))
@@ -74,36 +60,37 @@ const FarmList = ({ farms }: FarmListProps) => {
           <Text className="text-center text-gray-600">운영 중인 스마트팜이 없습니다.</Text>
         </View>
       )}
-
-          <Pressable
-            onPress={() => router.push('/detail')}
-            className="mb-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm relative"
-          >
-            <View className={`self-start rounded-full px-2 py-0.5 `}>
-              <Text className="text-xs font-semibold">ddd</Text>
-            </View>
-
-            <View className="flex-row justify-between items-start mt-2">
-              <View className="flex-1 pr-2">
-                <Text className="font-semibold text-lg border-b pb-1">스마트팜 </Text>
-                <Text className="text-sm text-gray-800 mt-1">작물 이름: </Text>
-                <Text className="text-sm text-gray-600 mt-1">주소: </Text>
-                <Text className="text-sm text-gray-500 mt-1">운영 시작일: </Text>
-              </View>
-
-              <Image
-                source={memFarmer}
-                className="w-12 h-12"
-                resizeMode="contain"
-              /> 
-            </View>
-
-            <View className="items-end pt-4">
-              <Text className="text-sm font-semibold text-blue-600">상세보기</Text>
-            </View>
-          </Pressable>
     </ScrollView>
   );
 };
+
+const styles = StyleSheet.create({
+  card: {
+    borderRadius: 10,
+    backgroundColor: 'white',
+    padding: 16,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 3,
+    marginBottom: 16,
+  },
+  badgeContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    marginBottom: 8,
+  },
+  badge: {
+    borderRadius: 999,
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
+  farmImage: {
+    width: 80,
+    height: 80,
+  },
+});
 
 export default FarmList;
