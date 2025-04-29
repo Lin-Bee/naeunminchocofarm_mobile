@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, Text, Pressable, Alert } from 'react-native';
+import { View, Text, Pressable, Alert, SafeAreaView } from 'react-native';
 import { useLoginInfo, logout } from '../../redux/store'; // logout 추가
 import { useRouter } from 'expo-router';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker'; //imame-picker
 
 export default function ProfilePage() {
   const loginInfo = useLoginInfo();
@@ -25,12 +26,16 @@ export default function ProfilePage() {
 
   return (
     <View className="flex-1 items-center justify-center bg-white px-6">
-      <Text className="mb-4 font-bold text-2xl">프로필</Text>
-      <Text className="mb-2 text-lg">id: {loginInfo.id}</Text>
-      <Text className="mb-2 text-lg">roleName: {loginInfo.roleName}</Text>
-      <Text className="mb-2 text-lg">roleFlag: {loginInfo.roleFlag}</Text>
-      <Text className="mb-2 text-lg">loginId: {loginInfo.loginId}</Text>
-      <Text className="mb-2 text-lg">name: {loginInfo.name}</Text>
+      <Text className="mb-4 font-bold text-2xl">마이페이지</Text>
+      <SafeAreaView>
+        <View>
+          
+        </View>
+      </SafeAreaView>
+      <Text className="mb-2 text-lg">{loginInfo.name}님 안녕하세요</Text>
+      <Text className="mb-2 text-lg">아이디: {loginInfo.loginId}</Text>
+      <Text className="mb-2 text-lg">이메일: {loginInfo.email}</Text>
+      <Text className="mb-2 text-lg">연락처: {loginInfo.tell}</Text>
 
       {/* 로그아웃 버튼 */}
       <View className="mt-6 flex-row">

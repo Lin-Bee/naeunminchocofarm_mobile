@@ -1,10 +1,30 @@
-import { Tabs } from 'expo-router';
+import { Tabs, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { Pressable, Text, View } from 'react-native';
 import Header from '~/components/Header';
 import { Container } from '~/components/Container';
+import { useSelector } from 'react-redux'
+import { RootState } from '~/redux/store';
+
+
 
 export default function TabLayout({ children }: { children: React.ReactNode }) {
+  const auth = useSelector((state: RootState) => state.auth);
+  const router = useRouter();
+
+  //로그인이 필요한 탭 목록
+  const protectedTabs = ['farms', 'home', 'setting'];
+
+  //탭 접근 권한 확인 함수
+  const checkAuthForTab = (tabName: string) => {
+    if (protectedTabs.includes(tabName) && !auth.loginInfo) {
+      console.log(`${tabName} 탭은 로그인이 필요합니다`);
+      return false;
+    }
+    return true;
+  };
+
+  
   return (
       <>
         <Header/>
@@ -40,6 +60,14 @@ export default function TabLayout({ children }: { children: React.ReactNode }) {
                 </Pressable>
               ),
             }}
+            listeners={{
+              tabPress: (e) => {
+                if (!checkAuthForTab('home')) {
+                  e.preventDefault();
+                  router.push('/auth/login');
+                }
+              }
+            }}
           />
 
           <Tabs.Screen
@@ -63,6 +91,14 @@ export default function TabLayout({ children }: { children: React.ReactNode }) {
                 </View>
               ),
             }}
+            listeners={{
+              tabPress: (e) => {
+                if (!checkAuthForTab('farms')) {
+                  e.preventDefault();
+                  router.push('/auth/login');
+                }
+              }
+            }}
           />
 
 
@@ -75,6 +111,14 @@ export default function TabLayout({ children }: { children: React.ReactNode }) {
                   <Text className="mt-1 text-xs text-gray-400">SETTING</Text>
                 </Pressable>
               ),
+            }}
+            listeners={{
+              tabPress: (e) => {
+                if (!checkAuthForTab('setting')) {
+                  e.preventDefault();
+                  router.push('/auth/login');
+                }
+              }
             }}
           />
         </Tabs>
