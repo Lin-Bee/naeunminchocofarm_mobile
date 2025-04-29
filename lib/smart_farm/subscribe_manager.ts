@@ -1,55 +1,61 @@
+import { getAccessToken } from "~/redux/store";
 import { websocketUrl } from "../app_config";
-import NcfSubscriber from "../websocket/ncf_subscriber";
+import { NcfSocketClient } from "../websocket/ncf_socket_client";
 
 type SettingsCallback = (data: any) => void;
 type StatusCallback = (data: any) => void;
 type SettingsSubscribers = {[key: string]: SettingsCallback[]};
 type StatusSubscribers = {[key: string]: StatusCallback[]}
 
-const sockets: {[key: string]: NcfSubscriber} = {};
+const sockets: {[key: string]: NcfSocketClient} = {};
 const settingsSubscribers: SettingsSubscribers = {};
 const statusSubscribers: StatusSubscribers = {};
 
-function _requestCurrentSettings(socket: NcfSubscriber) {
-  socket.sendJson({'method': 'get-settings'});
+function _requestCurrentSettings(socket: NcfSocketClient, destination: string) {
+  socket.sendJson(destination, {'method': 'get-settings'});
 }
 
-function _requestCurrentStatus(socket: NcfSubscriber) {
-  socket.sendJson({'method': 'get-status'});
+function _requestCurrentStatus(socket: NcfSocketClient, destination: string) {
+  socket.sendJson(destination, {'method': 'get-status'});
 }
 
 function _readySmartFarmSubscriber(farmUuid: string) {
-  if (sockets[farmUuid]) {
-    return;
-  }
+  if (!sockets[farmUuid]) {
+    const socketClient = new NcfSocketClient(websocketUrl);
+    socketClient.accessTokenProvider = async () => {
+      return await getAccessToken();
+    };
 
-  const subscriber = new NcfSubscriber(websocketUrl, farmUuid);
-  subscriber.onOpen = e => {
-    subscriber.subscribe();
-    _requestCurrentSettings(subscriber);
-    _requestCurrentStatus(subscriber);
-  }
+    socketClient.onHandshakeSuccess = (client, frame) => {
+      socketClient.subscribe(farmUuid);
+    };
 
-  subscriber.onJson = frame => {
-    const data = JSON.parse(frame.body);
-    switch (data['method']) {
-      case 'current-settings':
-        settingsSubscribers[farmUuid]?.forEach(cb => {
-          cb(data['settings']);
-        });
-        break;
-      case 'current-status':
-        statusSubscribers[farmUuid]?.forEach(cb => {
-          cb(data['status']);
-        })
-        break;
-      default:
-        break;
-    }
-  }
+    socketClient.onSubscribeSuccess = frame => {
+      _requestCurrentSettings(socketClient, farmUuid);
+      _requestCurrentStatus(socketClient, farmUuid);
+    };
 
-  subscriber.connect();
-  sockets[farmUuid] = subscriber;
+    socketClient.onJson = frame => {
+      const data = JSON.parse(frame.body);
+      switch (data['method']) {
+        case 'current-settings':
+          settingsSubscribers[farmUuid]?.forEach(cb => {
+            cb(data['settings']);
+          });
+          break;
+        case 'current-status':
+          statusSubscribers[farmUuid]?.forEach(cb => {
+            cb(data['status']);
+          })
+          break;
+        default:
+          break;
+      }
+    };
+
+    sockets[farmUuid] = socketClient;
+  }
+  sockets[farmUuid].connect();
 }
 
 function _subscribe(farmUuid: string, subscribers: SettingsSubscribers | StatusSubscribers, callback: SettingsCallback | StatusCallback) {
@@ -69,9 +75,8 @@ function _closeSubscriberIfEmpty(farmUuid: string) {
     && (statusSubscribersLength == undefined || settingsSubscribersLength == 0)
   ) {
     if (sockets[farmUuid]) {
-      sockets[farmUuid].unsubscribe();
+      sockets[farmUuid].unsubscribe(farmUuid);
       sockets[farmUuid].close();
-      delete sockets[farmUuid];
     }
   }
 }
@@ -89,17 +94,23 @@ function _unsubscribe(farmUuid: string, subscribers: SettingsSubscribers | Statu
 }
 
 function _sendUpdateSettings(farmUuid: string, newSettings: any) {
-  sockets[farmUuid].sendJson({'method': 'update-settings', 'settings': newSettings});
+  sockets[farmUuid].sendJson(farmUuid, {'method': 'update-settings', 'settings': newSettings});
 }
 
 export function subscribeFarmSettings(farmUuid: string, callback: SettingsCallback): [() => void, (newSttings: any) => void] {
+  if (farmUuid === '') {
+    throw new TypeError('farmUuid cannot be empty');
+  }
   _subscribe(farmUuid, settingsSubscribers, callback);
-  _requestCurrentSettings(sockets[farmUuid]);
+  _requestCurrentSettings(sockets[farmUuid], farmUuid);
   return [() => _unsubscribe(farmUuid, settingsSubscribers, callback), (newSettings: any) => _sendUpdateSettings(farmUuid, newSettings)];
 }
 
 export function subscribeFarmStatus(farmUuid: string, callback: StatusCallback) {
+  if (farmUuid === '') {
+    throw new TypeError('farmUuid cannot be empty');
+  }
   _subscribe(farmUuid, statusSubscribers, callback);
-  _requestCurrentStatus(sockets[farmUuid]);
+  _requestCurrentStatus(sockets[farmUuid], farmUuid);
   return () => _unsubscribe(farmUuid, statusSubscribers, callback);
 }
