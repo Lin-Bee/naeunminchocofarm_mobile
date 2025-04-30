@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import signupSlice from './count_slice';
 import authSlice, { loginInfoSelector, loginAction, logoutAction } from './auth_slice';
 import memberApi, { LoginData } from '../apis/member_api';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import * as SecureStore from 'expo-secure-store';
 // import farmSlice from './bak_farm_slice';
 
@@ -22,12 +22,6 @@ export function useLoginInfo() {
   const loginInfo = useSelector(loginInfoSelector);
   return loginInfo;
 }
-
-//농장정보
-// export function useFamsInfo(){
-//   const farmsList = useSelector(farmsListSelector);
-//   return farmsList;
-// }
 
 // 로그인 함수
 export async function login(loginData: LoginData) {
@@ -49,8 +43,6 @@ export async function login(loginData: LoginData) {
 
 //로그아웃 함수
 export async function logout() {
-  // const res = await memberApi.logout();
-
   // SecureStore 비우기
   await SecureStore.deleteItemAsync('accessToken');
   await SecureStore.deleteItemAsync('loginInfo');
@@ -58,7 +50,7 @@ export async function logout() {
   // Redux 스토어 초기화
   logoutAction(store.dispatch);
 
-  // return res;
+  return res;
 }
 
 // 앱 시작 시 저장된 로그인 정보를 복구하는 함수

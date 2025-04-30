@@ -41,7 +41,7 @@
       }
     },
     "extra": {
-      "webSocketUrl": "ws://192.168.30.128:8080/ws",
+      "webSocketUrl": "ws://192.168.30.128:8080/aws",
       "apiHost": "http://192.168.30.128:8080"
     }
   }
