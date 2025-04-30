@@ -23,6 +23,10 @@ export function useLoginInfo() {
   return loginInfo;
 }
 
+export async function getAccessToken() {
+  return await SecureStore.getItemAsync('accessToken') ?? "";
+}
+
 // 로그인 함수
 export async function login(loginData: LoginData) {
   const res = await memberApi.login(loginData);
