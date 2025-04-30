@@ -1,4 +1,5 @@
 import { useLocalSearchParams } from 'expo-router';
+import { View } from 'react-native';
 import PageLayout from '~/components/PageLayout';
 import FarmDetail from '~/farms/components/FarmDetail';
 

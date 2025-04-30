@@ -41,9 +41,9 @@ const MainScreen = ({farms, total, warning}:MainScreenProps) => {
         </View>
 
         <View className="mb-4 mt-4 space-y-3 px-4">
-          <View className="align-center flex-row justify-between">
+          <View className="items-center flex-row justify-between">
             <Text className="semibold mb-2 font-semibold text-xl">내 농장 리스트</Text>
-            <Pressable onPress={() => router.push('(farms)')}>
+            <Pressable onPress={() => router.push('/(tabs)/(farms)')}>
               <Text>전체 보기 +</Text>
             </Pressable>
           </View>

@@ -1,6 +1,6 @@
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 export default function TabLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -9,19 +9,7 @@ export default function TabLayout({ children }: { children: React.ReactNode }) {
           screenOptions={{
             headerShown: false,
             tabBarShowLabel: false,
-            tabBarStyle: {  //없어서 
-              position: 'fixed',
-              height: 60,
-              backgroundColor: '#fff',
-              borderTopLeftRadius: 24,
-              borderTopRightRadius: 24,
-              shadowColor: '#000',
-              shadowOffset: { width: 0, height: -4 },
-              shadowOpacity: 0.1,
-              shadowRadius: 10,
-              elevation: 10,
-              overflow: 'visible'
-            },
+            tabBarStyle: tabStyles.bar
           }}>
           <Tabs.Screen
             name="(home)"
@@ -74,3 +62,19 @@ export default function TabLayout({ children }: { children: React.ReactNode }) {
       </>
   );
 }
+
+const tabStyles = StyleSheet.create({
+  bar: {
+    position: 'absolute',
+    height: 60,
+    backgroundColor: '#fff',
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 10,
+    overflow: 'visible',
+  },
+});

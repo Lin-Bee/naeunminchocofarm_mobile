@@ -1,7 +1,7 @@
 import React from 'react';
-import { Text, TextInput, View } from 'react-native';
+import { Pressable, Text, TextInput, View } from 'react-native';
 import ToggleButton from '~/components/common/ToogleButton';
-
+import { StyleSheet } from 'react-native';
 interface SensorSettings {
   [key: string]: any;
 }
@@ -80,34 +80,97 @@ function SensorController({
   toggleKey,
 }: SensorControllerProps) {
   return (
-    <View className="min-w-100 border border-gray-200 mb-4 p-4">
-      <View className="flex-row items-center justify-between">
-        <View className="w-3/4 flex-row flex-wrap gap-4 items-center justify-around">
-          {fields.map(({ label, key, parser }, i) => (
-            <View key={i}>
-              <Text className="text-sm text-gray-700 mb-1">{label}</Text>
+    <View className="min-w-100 p-4">
+      <Text className='font-semibold font-lg mb-2'>상세 조정</Text>
+        <View style={styles.container}>
+        {fields.map(({ label, key, parser }, i) => (
+          <View key={i} style={styles.row}>
+            <Text style={styles.label}>{label}</Text>
+
+            <View style={styles.inputGroup}>
+              <Pressable style={styles.button}>
+                <Text style={styles.buttonText}>-</Text>
+              </Pressable>
+
               <TextInput
-                className="border border-gray-300 rounded px-2 py-1 w-20 text-right text-lg font-bold"
+                style={styles.input}
                 keyboardType="numeric"
                 value={String(settings[key] ?? '')}
                 onChangeText={(v) =>
                   onChangeSettings({ ...settings, [key]: parser(v) })
                 }
               />
+
+              <Pressable style={styles.button}>
+                <Text style={styles.buttonText}>+</Text>
+              </Pressable>
             </View>
-          ))}
+          </View>
+        ))}
+
+          <View style={styles.row}>
+            <Text style={styles.label}>자동제어</Text>
+            <ToggleButton
+              value={settings[toggleKey]}
+              onChange={(v) => onChangeSettings({ ...settings, [toggleKey]: v })}
+            />
+          </View>
         </View>
-        <View className="flex-row items-center justify-between">
-          <Text className="text-sm font-medium text-gray-800">자동제어</Text>
-          <ToggleButton
-            value={settings[toggleKey]}
-            onChange={(v) => onChangeSettings({ ...settings, [toggleKey]: v })}
-          />
-        </View>
-      </View>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    width: '100%',
+    borderTopWidth: 1,
+    borderTopColor: '#e5e7eb', // gray-200
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: '#e5e7eb', // gray-200
+  },
+  label: {
+    fontSize: 14,
+    color: '#374151', // gray-700
+  },
+  inputGroup: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  button: {
+    width: 32,
+    height: 32,
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: '#9ca3af', // gray-400
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginHorizontal: 4,
+  },
+  buttonText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#111827', // gray-900
+  },
+  input: {
+    height: 32,
+    width: 80,
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: '#d1d5db', // gray-300
+    textAlign: 'center',
+    fontSize: 18,
+    fontWeight: 'bold',
+    lineHeight: 1,
+    textAlignVertical: 'center', 
+    includeFontPadding: false
+  },
+});
 
 function AirTempController({
   settings,

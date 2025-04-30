@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
   moreStyle:{
     width:'48%',
     shadowColor: '#000',
+    shadowOffset: { width: 0, height: -2 },
     elevation: 6,
     borderRadius:10
   }

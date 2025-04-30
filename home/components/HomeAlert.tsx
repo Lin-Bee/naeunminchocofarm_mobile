@@ -5,7 +5,7 @@ const HomeAlert = () => {
   return (
     <>
       <View className="mt-6 px-4">
-        <View className="align-center flex-row justify-between">
+        <View className="items-center flex-row justify-between">
           <Text className="semibold mb-2 font-semibold text-xl">알림 / 이슈</Text>
           <Pressable className="mt-2">
             <Text className="text-green-600">전체 보기 +</Text>

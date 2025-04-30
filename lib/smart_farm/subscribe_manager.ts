@@ -1,3 +1,4 @@
+import { getAccessToken } from '~/redux/store';
 import { websocketUrl } from '../app_config';
 import { NcfSocketClient } from '../websocket/ncf_socket_client';
 

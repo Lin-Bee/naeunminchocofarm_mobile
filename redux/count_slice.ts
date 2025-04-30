@@ -8,6 +8,9 @@ const counterSlice = createSlice({
     increase: (state) => {
       return state + 1
     },
+    decrease: (state) => {
+      return state - 1
+    },
     handleCounter: (state, action) => {
       return state + action.payload;
     },
@@ -15,6 +18,6 @@ const counterSlice = createSlice({
 });
 
 // 액션 생성자 export
-export const { increase, handleCounter } = counterSlice.actions;
+export const { increase, decrease, handleCounter } = counterSlice.actions;
 // 리듀서만 export
 export default counterSlice;
