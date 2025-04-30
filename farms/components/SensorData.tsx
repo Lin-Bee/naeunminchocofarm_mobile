@@ -1,10 +1,7 @@
 import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
+import { SensorDataProps } from '~/@types/farm';
 
-interface SensorDataProps {
-  name: string;
-  value: any;
-}
 
 export default function SensorData({ name, value }: SensorDataProps) {
   switch (name) {

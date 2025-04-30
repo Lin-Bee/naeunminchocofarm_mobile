@@ -1,4 +1,4 @@
-import NcfFrame from "./ncf_frame";
+import NcfFrame from './ncf_frame';
 
 const MAX_RECONNECT_DELAY = 30000;
 const MIN_RECONNECT_DELAY = 1000;
@@ -22,20 +22,20 @@ export class NcfSocketClient {
 
   constructor(webSocketUrl: string) {
     this.webSocketUrl = webSocketUrl;
-    this.accessTokenProvider = () => "";
+    this.accessTokenProvider = () => '';
     this.socket = undefined;
     this.reconnectDelay = MIN_RECONNECT_DELAY;
     this.onOpen = (e) => {};
     this.onHandshakeSuccess = (client, frame) => {};
-    this.onHandshakeFailed = frame => {};
+    this.onHandshakeFailed = (frame) => {};
     this.isExit = false;
     this.destinations = [];
-    this.onText = frame => {};
-    this.onJson = frame => {};
-    this.onSubscribeSuccess = frame => {};
-    this.onSubscribeFailed = frame => {};
-    this.onError = e => {};
-    this.onClose = e => {};
+    this.onText = (frame) => {};
+    this.onJson = (frame) => {};
+    this.onSubscribeSuccess = (frame) => {};
+    this.onSubscribeFailed = (frame) => {};
+    this.onError = (e) => {};
+    this.onClose = (e) => {};
   }
 
   public sendFrame(frame: NcfFrame) {
@@ -48,9 +48,9 @@ export class NcfSocketClient {
     (async () => {
       const accessToken = await Promise.resolve(this.accessTokenProvider());
       const headers = {
-        'Authorization': `Bearer ${accessToken}`
+        Authorization: `Bearer ${accessToken}`,
       };
-      const frame = new NcfFrame("AUTHENTICATE", headers, "");
+      const frame = new NcfFrame('AUTHENTICATE', headers, '');
       this.sendFrame(frame);
     })();
   }
@@ -62,7 +62,7 @@ export class NcfSocketClient {
   public close() {
     this.isExit = true;
     if (this.socket?.readyState === WebSocket.OPEN) {
-      this.destinations.forEach(x => this.unsubscribe(x));
+      this.destinations.forEach((x) => this.unsubscribe(x));
       this.destinations = [];
       this.socket.close();
       this.socket = undefined;
@@ -73,14 +73,14 @@ export class NcfSocketClient {
     console.log('trying connect websocket');
     this.destinations = [];
     this.socket = new WebSocket(this.webSocketUrl);
-    this.socket.onopen = e => {
+    this.socket.onopen = (e) => {
       this.reconnectDelay = MIN_RECONNECT_DELAY;
       console.log('websocket is opened');
       this.onOpen(e);
       this.handshake();
     };
 
-    this.socket.onmessage = e => {
+    this.socket.onmessage = (e) => {
       const frame = NcfFrame.parse(e.data);
       switch (frame.command) {
         case 'AUTH_SUCCESS':
@@ -117,7 +117,7 @@ export class NcfSocketClient {
     };
 
     this.socket.onerror = this.onError;
-    this.socket.onclose = e => {
+    this.socket.onclose = (e) => {
       console.log('websocket is closed');
       this.onClose(e);
       if (this.isExit) {
@@ -128,7 +128,7 @@ export class NcfSocketClient {
         this.reconnectDelay = Math.min(this.reconnectDelay * 2, MAX_RECONNECT_DELAY);
         this.connect();
       }, this.reconnectDelay);
-    }
+    };
 
     this.isExit = false;
   }
@@ -137,26 +137,26 @@ export class NcfSocketClient {
     (async () => {
       const accessToken = await Promise.resolve(this.accessTokenProvider());
       const headers = {
-        'Authorization': `Bearer ${accessToken}`,
-        'destination': destination
-      }
-      const frame = new NcfFrame("SUBSCRIBE", headers, "");
+        Authorization: `Bearer ${accessToken}`,
+        destination: destination,
+      };
+      const frame = new NcfFrame('SUBSCRIBE', headers, '');
       this.sendFrame(frame);
     })();
   }
 
   public sendText(destination: string, text: string) {
     const headers = {
-      'destination': destination,
-      'content-type': 'text'
-    }
+      destination: destination,
+      'content-type': 'text',
+    };
     this.sendFrame(NcfFrame.createSend(headers, text));
   }
 
-  public sendJson(destination: string, dict: {[key: string]: string}) {
+  public sendJson(destination: string, dict: { [key: string]: string }) {
     const headers = {
-      'destination': destination,
-      'content-type': 'json'
+      destination: destination,
+      'content-type': 'json',
     };
     this.sendFrame(NcfFrame.createSend(headers, JSON.stringify(dict)));
   }

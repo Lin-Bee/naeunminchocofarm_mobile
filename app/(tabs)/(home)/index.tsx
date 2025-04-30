@@ -18,7 +18,6 @@ const AppHome = () => {
       .then(res => {
         const farms = res.data;
         console.log('받은 farms:', res.data);
-        console.log('farms:', res);
         setFarms(farms);
         const total = farms.length;
         const warning = farms.filter((x:any) => x.status === '경고').length;

@@ -7,6 +7,7 @@ interface FarmInfoProps {
 }
 
 const FarmInfo = ({ farm }: FarmInfoProps) => {
+  console.log('이곳 팜'+farm);
   return (
     <View className="px-4 py-2 bg-white p-4">
       <View className="border-b-4 p-4" >

@@ -1,22 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-
-//각각들 key label unit드갈거
-interface SensorTabItem{
-  key: string;
-  label: string;
-  unit: string;
-}
-
-//넘겨줄 영역들
-interface SenserTabProps{
-  tabs:SensorTabItem[];
-  value:string;
-  onChange:(key:string)=>void;
-  dataProvider:(key:string)=>number;
-  DataComponent?: React.ComponentType<{ name: string; value: any }>;
-}
-
+import { SenserTabProps } from '~/@types/farm';
 
 const SensorTab = ({ tabs, value, onChange, dataProvider, DataComponent }: SenserTabProps) => {
   return (

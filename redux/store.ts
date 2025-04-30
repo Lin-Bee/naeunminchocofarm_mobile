@@ -49,8 +49,6 @@ export async function logout() {
 
   // Redux 스토어 초기화
   logoutAction(store.dispatch);
-
-  return res;
 }
 
 // 앱 시작 시 저장된 로그인 정보를 복구하는 함수
