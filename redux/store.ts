@@ -67,13 +67,4 @@ export async function loadLoginInfo() {
   }
 }
 
-export async function goLogin(){
-  const accessToken = await SecureStore.getItemAsync('accessToken');
-  const loginInfoStr = await SecureStore.getItemAsync('loginInfo');
-  if(accessToken == null || loginInfoStr==null ) {
-    logout();
-    router.replace('/auth/login');
-  }
-}
-
 

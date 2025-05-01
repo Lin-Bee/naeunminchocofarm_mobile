@@ -42,7 +42,7 @@ const FarmList = ({ farms }: FarmListProps) => {
 
               <View className="ml-2">
                 
-                <Text className="mb-2 font-bold text-lg">{farm.name || `스마트팜 ${i + 1}`}</Text>
+                <Text className="mb-2 font-semibold text-2xl">{farm.name || `스마트팜 ${i + 1}`}</Text>
                 <Text className="text-sm text-gray-700">작물: {farm.cropName}</Text>
                 <Text className="mt-1 text-sm text-gray-500">주소: {farm.address}</Text>
                 <Text className="mt-1 text-sm text-gray-500">운영시작일: {farm.useDate}</Text>
