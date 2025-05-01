@@ -1,14 +1,24 @@
-import { Keyboard, SafeAreaView, TouchableNativeFeedback } from 'react-native';
+import { Animated, Keyboard, ScrollView, View } from 'react-native';
 
-export const Container = ({ children }: { children: React.ReactNode }) => {
+interface ContainerProps{
+  children:React.ReactNode,
+  scrollY:Animated.Value;
+}
+
+export const Container = ({ children, scrollY }: ContainerProps) => {
   return (
     <>
-      <TouchableNativeFeedback onPress={Keyboard.dismiss}>
-        <SafeAreaView className="flex-1 bg-white font-regular">{children}</SafeAreaView>
-      </TouchableNativeFeedback>
-    </>)
+      <Animated.ScrollView 
+        scrollEventThrottle={4}
+        onScroll={Animated.event(
+          [{nativeEvent: {contentOffset:{ y :scrollY}}}],
+          {useNativeDriver:false}
+        )}>
+        <View>
+          {children}
+        </View>
+      </Animated.ScrollView>
+    </>
+    )
   ;
 };
-
-
-// 쓰고있음 ncf

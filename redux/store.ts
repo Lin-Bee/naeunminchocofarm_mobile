@@ -4,12 +4,15 @@ import authSlice, { loginInfoSelector, loginAction, logoutAction } from './auth_
 import memberApi, { LoginData } from '../apis/member_api';
 import { useSelector } from 'react-redux';
 import * as SecureStore from 'expo-secure-store';
+import { router } from 'expo-router';
+// import farmSlice from './bak_farm_slice';
 
 // 스토어 생성
 export const store = configureStore({
   reducer: {
     signup: signupSlice.reducer,
     auth: authSlice.reducer,
+    // farm:farmSlice.reducer
   },
 });
 
@@ -57,10 +60,11 @@ export async function logout() {
 export async function loadLoginInfo() {
   const accessToken = await SecureStore.getItemAsync('accessToken');
   const loginInfoStr = await SecureStore.getItemAsync('loginInfo');
-
   if (accessToken && loginInfoStr) {
     const loginInfo = JSON.parse(loginInfoStr);
-
     loginAction(store.dispatch, { accessToken, loginInfo });
+
   }
 }
+
+

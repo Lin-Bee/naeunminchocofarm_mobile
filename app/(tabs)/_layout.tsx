@@ -1,34 +1,15 @@
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { Pressable, Text, View } from 'react-native';
-import Header from '~/components/Header';
-import { Container } from '~/components/Container';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 export default function TabLayout({ children }: { children: React.ReactNode }) {
   return (
       <>
-        <Header/>
-        <Container className="flex-1">
-          {children}
-        </Container>
-        {/* footer */}
         <Tabs
           screenOptions={{
             headerShown: false,
             tabBarShowLabel: false,
-            tabBarStyle: {  //없어서 
-              position: 'fixed',
-              height: 60,
-              backgroundColor: '#fff',
-              borderTopLeftRadius: 24,
-              borderTopRightRadius: 24,
-              shadowColor: '#000',
-              shadowOffset: { width: 0, height: -4 },
-              shadowOpacity: 0.1,
-              shadowRadius: 10,
-              elevation: 10,
-              overflow: 'visible'
-            },
+            tabBarStyle: tabStyles.bar
           }}>
           <Tabs.Screen
             name="(home)"
@@ -50,7 +31,7 @@ export default function TabLayout({ children }: { children: React.ReactNode }) {
                   <View className="absolute -top-5 h-[80px] w-[80px] items-center justify-center rounded-full bg-white z-40 shadow-md">
                     
                     <Pressable
-                      onPress={props.onPress} // ✅ 명시적으로 전달
+                      onPress={props.onPress} 
                       accessible
                       accessibilityRole="button"
                       className="h-[70px] w-[70px] items-center justify-center rounded-full bg-green-600 shadow-xl z-50"
@@ -81,3 +62,19 @@ export default function TabLayout({ children }: { children: React.ReactNode }) {
       </>
   );
 }
+
+const tabStyles = StyleSheet.create({
+  bar: {
+    position: 'absolute',
+    height: 60,
+    backgroundColor: '#fff',
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 10,
+    overflow: 'visible',
+  },
+});

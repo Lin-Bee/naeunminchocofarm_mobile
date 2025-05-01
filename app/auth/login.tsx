@@ -36,7 +36,7 @@ const LoginScreen: React.FC = () => {
 
   return (
     <View className="flex-1 items-center justify-center bg-white px-6">
-      <Image source={require('../../assets/content/img-login.png')} className="mb-6 h-60 w-64" />
+      <Image source={require('~/assets/images/content/img-login.png')} className="mb-6 h-60 w-64" />
 
       <View className="w-full text-left">
         <Text className="mb-6 font-bold text-2xl">Login</Text>
@@ -59,7 +59,7 @@ const LoginScreen: React.FC = () => {
         />
       </View>
 
-      <Pressable className="mb-4 w-full items-center rounded bg-blue-600 py-3" onPress={loginCheck}>
+      <Pressable className="mb-4 w-full items-center rounded bg-green-500 py-3" onPress={loginCheck}>
         <Text className="font-semibold text-white">로그인</Text>
       </Pressable>
 
@@ -68,7 +68,7 @@ const LoginScreen: React.FC = () => {
       <View className="w-full flex-row justify-center">
         <Text className="text-sm text-gray-500">홈페이지에서 신청 후 사용가능합니다</Text>
         <Pressable>
-          <Text className="ml-3 text-sm text-blue-500">문의하기</Text>
+          <Text className="ml-3 text-sm text-green-500">문의하기</Text>
         </Pressable>
       </View>
     </View>

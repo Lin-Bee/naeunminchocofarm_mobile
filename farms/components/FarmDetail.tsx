@@ -1,0 +1,119 @@
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
+import memberApi, { Farm } from '~/apis/member_api';
+import { useRouter } from 'expo-router';
+import { subscribeFarmSettings, subscribeFarmStatus } from '~/lib/smart_farm/subscribe_manager';
+import Loading from '~/app/loading';
+import SensorTab from './SensorTab';
+import FarmController from './FarmController';
+import SectionArea from './SectionArea';
+import SensorData from './SensorData';
+import FarmInfo from './FarmInfo';
+import { Status } from '~/@types/farm';
+
+const SENSOR_TABS = [
+  { key: 'soil_moisture', label: '토양습도', unit: '' },
+  { key: 'air_temp', label: '기온', unit: '℃' },
+  { key: 'humidity', label: '습도', unit: '%' },
+  { key: 'ldr', label: '조도', unit: 'lx' },
+  { key: 'motion', label: '움직임', unit: '' },
+];
+
+interface farmDetailProps {
+  farmId: number;
+}
+
+const FarmDetail = ({ farmId }: farmDetailProps) => {
+  const router = useRouter();
+  const [farm, setFarm] = useState<Farm | undefined>(undefined); //팜정보용
+  const [settings, setSettings] = useState<any>(undefined);
+  const [status, setStatus] = useState<Status | undefined>(undefined);
+  const updateSettings = useRef<(newSettings: any) => void | undefined>(undefined);
+  const [activeTab, setActiveTab] = useState('soil_moisture');
+  const cleanUpTasks = useRef<(() => void)[]>([]);
+
+  useEffect(() => {
+    memberApi
+      .getFarmDetail(farmId)
+      .then((res) => {
+        if (!res.data) {
+          alert('스마트팜을 보유하고 있지 않습니다. 이전 화면으로 이동합니다.');
+          router.back();
+        }
+        console.log('uuid 잘 보유한다 : ' + res.data.uuid);
+        setFarm(res.data); //팜정보용
+        const disconnectFarm = connectFarm(res.data.uuid);
+        cleanUpTasks.current.push(disconnectFarm);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+
+    return () => {
+      cleanUpTasks.current.forEach((task) => task());
+    };
+  }, [farmId]);
+
+  function connectFarm(farmUuid: string) {
+    const [unsubscribeSettings, _updateSettings] = subscribeFarmSettings(farmUuid, setSettings);
+    updateSettings.current = _updateSettings;
+    const unsubscribeStatus = subscribeFarmStatus(farmUuid, setStatus);
+    return () => {
+      unsubscribeSettings();
+      updateSettings.current = undefined;
+      unsubscribeStatus();
+    };
+  }
+
+  if (!status || !settings) {
+    return <Loading title={'스마트팜 정보를 불러오는 중입니다.'} />;
+  }
+
+  //그 팜 내에서 컨트롤러 센서이름이 같은애들뿌려주기
+  function farmDataProvider(dataName: string) {
+    const data = status?.controllers
+      ?.map((c) => c.sensor_datas?.find((s) => s.name === dataName)?.value)
+      ?.find((x) => true);
+    return data;
+  }
+
+  return (
+    <ScrollView>
+      <View className=''>
+        <View style={styles.cardSheet}>
+          <FarmInfo farm={farm} />
+          <SensorTab
+            tabs={SENSOR_TABS}
+            value={activeTab}
+            onChange={setActiveTab}
+            dataProvider={farmDataProvider}
+            DataComponent={SensorData}
+          />
+          <FarmController
+            dataName={activeTab}
+            settings={settings}
+            onChangeSettings={(s: any) => updateSettings.current?.(s)}
+          />
+        </View>
+
+        <SectionArea status={status} dataName={activeTab} />
+      </View>
+    </ScrollView>
+  );
+};
+
+export default FarmDetail;
+export const styles = StyleSheet.create({
+  cardSheet: {
+    backgroundColor: '#fff',
+    paddingTop: 64, // pt-16
+    marginBottom: 12, // mb-[12px]
+    borderBottomLeftRadius: 24,
+    borderBottomRightRadius: 24,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 6,
+  },
+});
