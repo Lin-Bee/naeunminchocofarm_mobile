@@ -3,7 +3,7 @@ import { Stack, useRouter } from 'expo-router';
 import { useCustomFonts } from '~/hook/useCustomFonts';
 import Loading from './loading';
 import '~/global.css';
-import { goLogin, loadLoginInfo, store } from '../redux/store'; // store 가져오기
+import { loadLoginInfo, store } from '../redux/store'; // store 가져오기
 import { Provider, useSelector } from 'react-redux'; // Provider 가져오기
 import { useEffect, useState } from 'react';
 import { accessTokenSelector } from '~/redux/auth_slice';
@@ -18,14 +18,6 @@ export default function RootLayout() {
       await loadLoginInfo(); 
     })();
   }, []);
-
-  
-  useEffect(() => {
-    (async () => {
-      await goLogin(); 
-    })();
-  }, []);
-
 
   if (!fontsLoaded) return <Loading />;
 

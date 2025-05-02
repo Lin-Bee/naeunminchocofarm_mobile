@@ -15,11 +15,11 @@ const HomeCard = ({ title, value, unit, className, colorType = 'green' }: HomeCa
       style={styles.moreStyle}>
       <Text className="font-semibold semibold text-md">{title}</Text>
 
-      <View className="flex-row justify-end items-center mt-1">
-        <Text style={[styles[colorType]]} className="font-semibold text-2xl">
+      <View className="flex-row items-center justify-end mt-1">
+        <Text style={[styles[colorType],styles.size]} className="font-semibold">
           {value}
         </Text>
-        <Text className="ml-1 font-semibold text-xl"> {unit}</Text>
+        <Text className="ml-1 font-semibold text-2xl"> {unit}</Text>
       </View>
     </View>
   );
@@ -36,5 +36,8 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: -2 },
     elevation: 6,
     borderRadius:10
+  },
+  size:{
+    fontSize:42
   }
 });

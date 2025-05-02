@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { ImageBackground, StyleSheet, Text, View } from 'react-native';
+const Mimg = require('~/assets/images/content/bg-home.png')
 
 interface HomeTopProps{
   name:string;
@@ -8,12 +9,13 @@ interface HomeTopProps{
 const HomeTop = ({name}:HomeTopProps) => {
   return (
     <>
-      <View style={styles.greenBox}>
+      <ImageBackground
+        source={Mimg} style={styles.greenBox} imageStyle={styles.backgroundImage}>
         <Text className="font-semibold text-2xl text-white ">{name}님</Text>
-        <Text className="mt-1 font-md text-sm text-white">
+        <Text className="mt-1 font-light text-sm text-white">
           오늘도 스마트하게 농장을 관리해보세요!
         </Text>
-      </View>
+      </ImageBackground>
     </>
   );
 };
@@ -24,6 +26,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingTop: 96,
     paddingBottom: 24,
+  },
+  backgroundImage: {
+    resizeMode: 'cover',
+    opacity: 0.8
   },
 });
 
