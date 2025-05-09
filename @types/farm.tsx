@@ -1,9 +1,9 @@
+import React from "react";
 
 export interface SensorDataProps {
   name: string;
   value: any;
 }
-
 
 export interface ControllerType {
   name?: string;
@@ -28,5 +28,5 @@ export interface SenserTabProps{
   value:string;
   onChange:(key:string)=>void;
   dataProvider:(key:string)=>number;
-  DataComponent?: React.ComponentType<{ name: string; value: any }>;
+  DataComponent ?: React.ComponentType<{ name: string; value: any }>;
 }

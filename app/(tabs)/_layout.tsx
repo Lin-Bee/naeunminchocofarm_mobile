@@ -71,7 +71,6 @@ const tabStyles = StyleSheet.create({
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: -2 },
     shadowOpacity: 0.1,
     shadowRadius: 10,
     elevation: 10,

@@ -88,7 +88,13 @@ function SensorController({
             <Text style={styles.label}>{label}</Text>
 
             <View style={styles.inputGroup}>
-              <Pressable style={styles.button}>
+              <Pressable style={styles.button}
+                onPress={()=>{
+                  onChangeSettings({
+                    ...settings,
+                    [key]:parser(String((Number(settings[key]) || 0) - 1))
+                  })
+                }}>
                 <Text style={styles.buttonText}>-</Text>
               </Pressable>
 
@@ -101,7 +107,15 @@ function SensorController({
                 }
               />
 
-              <Pressable style={styles.button}>
+              <Pressable
+                style={styles.button}
+                onPress={() =>
+                  onChangeSettings({
+                    ...settings,
+                    [key]: parser(String((Number(settings[key]) || 0) + 1)),
+                  })
+                }
+              >
                 <Text style={styles.buttonText}>+</Text>
               </Pressable>
             </View>
@@ -161,14 +175,15 @@ const styles = StyleSheet.create({
     height: 32,
     width: 80,
     borderRadius: 6,
-    borderWidth: 1,
-    borderColor: '#d1d5db', // gray-300
+
     textAlign: 'center',
     fontSize: 18,
     fontWeight: 'bold',
-    lineHeight: 1,
-    textAlignVertical: 'center', 
-    includeFontPadding: false
+    paddingTop:13,
+    lineHeight: 1, // height와 동일하게
+    paddingVertical: 0, // 내부 padding 제거
+    includeFontPadding: false,
+    textAlignVertical: 'center', // Android용
   },
 });
 

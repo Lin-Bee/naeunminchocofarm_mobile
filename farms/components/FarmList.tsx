@@ -1,26 +1,13 @@
 import { router } from 'expo-router';
 import { View, Text, Image, Pressable, ScrollView, StyleSheet } from 'react-native';
 import { Farm } from '~/apis/member_api';
+import { getStatusStyle } from '~/utils/StatusStyle'
 const memTomato = require('~/assets/images/content/ico-farm.png');
-
 interface FarmListProps {
   farms: Farm[];
 }
 
 const FarmList = ({ farms }: FarmListProps) => {
-  const getStatusStyle = (status?: string) => {
-    switch (status) {
-      case '운영중':
-        return { backgroundColor: '#D1FAE5', color: '#059669' }; 
-      case '점검중':
-        return { backgroundColor: '#FEF3C7', color: '#D97706' }; 
-      case '폐쇄':
-        return { backgroundColor: '#FECACA', color: '#DC2626' }; 
-      default:
-        return { backgroundColor: '#E5E7EB', color: '#6B7280' }; 
-    }
-  };
-  
   return (
     <ScrollView className="px-4 py-4" contentContainerStyle={{ flexGrow: 1 }}>
       {farms?.length > 0 ? (
@@ -29,7 +16,7 @@ const FarmList = ({ farms }: FarmListProps) => {
                     onPress={() => router.push(`/(tabs)/(farms)/detail/${farm.id}`) }
                     style={styles.card} >
              <View style={styles.badgeContainer}>
-              <Text style={[styles.badge, getStatusStyle(farm.status)]}>
+              <Text style={getStatusStyle(farm.status)}>
                 {farm.status}
               </Text>
             </View>
@@ -78,13 +65,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
     marginBottom: 8,
-  },
-  badge: {
-    borderRadius: 999,
-    paddingVertical: 4,
-    paddingHorizontal: 8,
-    fontSize: 12,
-    fontWeight: 'bold',
   },
   farmImage: {
     width: 80,
