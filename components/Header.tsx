@@ -42,6 +42,12 @@ export default function Header() {
           <Ionicons name="person-outline" size={24} color="black" />
         </Pressable>
       </View>
+
+      <View className="flex-row">
+        <Pressable onPress={()=>{router.push('/auth/profile_page')}}>
+          <Ionicons name="person-outline" size={24} color="black" />
+        </Pressable>
+      </View>
       
     </View>
   );
