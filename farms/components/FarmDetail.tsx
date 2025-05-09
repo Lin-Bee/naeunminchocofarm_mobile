@@ -7,7 +7,7 @@ import Loading from '~/app/loading';
 import SensorTab from './SensorTab';
 import FarmController from './FarmController';
 import SectionArea from './SectionArea';
-import SensorData from './SensorData';
+import {SensorData, SensorDataSimple} from './SensorData';
 import FarmInfo from './FarmInfo';
 import { Status } from '~/@types/farm';
 
@@ -53,6 +53,7 @@ const FarmDetail = ({ farmId }: farmDetailProps) => {
       cleanUpTasks.current.forEach((task) => task());
     };
   }, [farmId]);
+  
 
   function connectFarm(farmUuid: string) {
     const [unsubscribeSettings, _updateSettings] = subscribeFarmSettings(farmUuid, setSettings);
@@ -87,7 +88,7 @@ const FarmDetail = ({ farmId }: farmDetailProps) => {
             value={activeTab}
             onChange={setActiveTab}
             dataProvider={farmDataProvider}
-            DataComponent={SensorData}
+            DataComponent={SensorDataSimple}
           />
           <FarmController
             dataName={activeTab}
@@ -96,7 +97,7 @@ const FarmDetail = ({ farmId }: farmDetailProps) => {
           />
         </View>
 
-        <SectionArea status={status} dataName={activeTab} />
+        <SectionArea status={status} dataName={activeTab} settings = {settings}/>
       </View>
     </ScrollView>
   );
@@ -111,7 +112,6 @@ export const styles = StyleSheet.create({
     borderBottomLeftRadius: 24,
     borderBottomRightRadius: 24,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: -2 },
     shadowOpacity: 0.1,
     shadowRadius: 6,
     elevation: 6,

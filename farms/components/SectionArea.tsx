@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, Pressable } from 'react-native';
-import SensorData from './SensorData';
+import { SensorData} from './SensorData';
 
 interface SectionAreaProps {
   status: {
@@ -10,13 +10,26 @@ interface SectionAreaProps {
         name: string;
         value: string | number;
       }[];
-      
     }[];
   };
   dataName: string;
+  settings:Record<string,{min?:number, max?:number}>
 }
 
-export default function SectionArea({ status, dataName }: SectionAreaProps) {
+function getStatusLabel(value: number, setting?: { min?: number; max?: number }, name?: string) {
+  if (!setting) return '정상';
+  const { min, max } = setting;
+
+  if (typeof min === 'number' && value < min) {
+    return name === 'air_temp' ? '저온' : name === 'humidity' ? '건조' : '낮음';
+  }
+  if (typeof max === 'number' && value > max) {
+    return name === 'air_temp' ? '고온' : name === 'humidity' ? '과습' : '높음';
+  }
+  return '정상';
+}
+
+export default function SectionArea({ status, dataName,settings }: SectionAreaProps) {
   const controllers =
     status.controllers?.map((c, i) => ({
       name: c.name?.trim() || `구역 ${i + 1}`,
@@ -38,34 +51,28 @@ export default function SectionArea({ status, dataName }: SectionAreaProps) {
       <View className='mb-2'>
         <Text className='font-semibold'>총 <Text className='text-green-500'>{controllers.length}</Text> 개의 구역이 있습니다.</Text>
       </View>
-      {controllers.map(({ name, sensorValue }, i) => (
-        <View key={i} className="">
-          <Pressable onPress={() => toggleSection(i)} className="p-3 border-b border-gray-200">
-            <Text className="font-semibold text-gray-800">{name}</Text>
-          </Pressable>
+      {controllers.map(({ name, sensorValue }, i) => {
+        const statusLabel =
+          typeof sensorValue === 'number'
+            ? getStatusLabel(sensorValue, settings[dataName], dataName)
+            : undefined;
 
-          {openIndexes.includes(i) && (
-            <View className="border p-4 rounded-md bg-white shadow-sm">
-              <View className="flex-row justify-between items-center mb-3">
-                <Text className="text-sm font-semibold text-gray-700">{name}</Text>
+        return (
+          <View key={i}>
+            <Pressable onPress={() => toggleSection(i)} className="p-3 mb-2 border-b border-gray-200">
+              <Text className="font-semibold text-gray-800">{name}</Text>
+            </Pressable>
 
-                <View className="px-2 py-1 rounded-full border border-yellow-400 bg-yellow-100">
-                  <Text className="text-xs text-yellow-700 font-medium">온도상태변수</Text>
-                </View>
-              </View>
-
-              <View className="items-center flex-row justify-between">
-                <View className="w-10 h-10 mb-1">
-                  <Text>아이콘</Text>
-                </View>
-                <View className="text-center">
-                  <SensorData name={dataName} value={sensorValue} />
-                </View>
-              </View>
-            </View>
-          )}
-        </View>
-      ))}
+            {openIndexes.includes(i) && (
+              <SensorData
+                name={dataName}
+                value={sensorValue}
+                statusLabel={statusLabel} 
+              />
+            )}
+          </View>
+        );
+      })}
     </View>
   );
 }

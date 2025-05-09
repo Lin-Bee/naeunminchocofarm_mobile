@@ -30,23 +30,23 @@ const FarmInfo = ({ farm }: FarmInfoProps) => {
               {farm?.status} 
             </Text>
           </View>
-          <Text className="items-center flex-row text-xs text-gray-400">
+          <Text className="items-center flex-row text-sm text-gray-400">
             <Text> {farm?.cropName}</Text>
           </Text>
         </View>
         <Text className="font-bold text-2xl mb-2">{farm?.name}</Text>
         
-        <Text className="items-center flex-row text-xs text-gray-400">
-          <Octicons name="location" size={16} />
-          <Text> {farm?.address}</Text>
+        <Text className="items-center flex-row text-gray-400">
+          <Octicons name="location" size={14} />
+          <Text className=' text-sm'> {farm?.address}</Text>
         </Text>
-        <Text className="items-center flex-row text-xs text-gray-400">
-          <MaterialIcons name="date-range" size={15} />
-          <Text> {farm?.useDate}</Text>
+        <Text className="items-center flex-row text-gray-400">
+          <MaterialIcons name="date-range" size={14} />
+          <Text className=' text-sm'> {farm?.useDate}</Text>
         </Text>
-        <Text className="text-xs items-center flex-row text-gray-400 ">
+        <Text className="items-center flex-row text-gray-400 ">
           <Octicons name="key" size={14} /> 
-          <Text> {farm?.uuid}</Text>
+          <Text className=' text-sm'> {farm?.uuid}</Text>
         </Text>
       </View>
     </View>
