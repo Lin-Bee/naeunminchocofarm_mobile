@@ -1,12 +1,12 @@
 import { useRouter, usePathname } from 'expo-router';
 import { View, Text, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useLoginInfo } from '../redux/store'; //추가
+import { useLoginInfo } from '../redux/store'; 
 
 export default function Header() {
   const router = useRouter();
   const pathname = usePathname();
-  const loginInfo = useLoginInfo(); //현재 로그인 정보
+  const loginInfo = useLoginInfo(); 
 
   const hideBackButtonPages = [
     '/(tabs)/(home)',
@@ -39,12 +39,6 @@ export default function Header() {
       <View className="flex-row">
         <Ionicons className='mr-2' name="notifications-outline" size={24} color="black" />
         <Pressable onPress={()=>{router.push('/auth/login')}}>
-          <Ionicons name="person-outline" size={24} color="black" />
-        </Pressable>
-      </View>
-
-      <View className="flex-row">
-        <Pressable onPress={()=>{router.push('/auth/profile_page')}}>
           <Ionicons name="person-outline" size={24} color="black" />
         </Pressable>
       </View>
