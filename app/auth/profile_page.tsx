@@ -5,6 +5,7 @@ import { useRouter } from 'expo-router';
 import memberApi, { MemberImgDTO } from '../../apis/member_api';
 import SetProfileImage from '~/components/SetProfileImage';
 import { axiosInstance } from '../../apis/axios_instance';
+import { apiHost } from '~/lib/app_config';
 
 export default function ProfilePage() {
   const loginInfo = useLoginInfo();
@@ -43,7 +44,7 @@ export default function ProfilePage() {
   const getProfileImageUrl = (): string | null => {
     if (previewUri) return previewUri;
     if (profileImg?.attachedFileName) {
-      return `http://10.0.2.2:8081/uploads/${profileImg.attachedFileName}`;
+      return `${apiHost}/uploads/${profileImg.attachedFileName}`;
     }
     return null;
   };
