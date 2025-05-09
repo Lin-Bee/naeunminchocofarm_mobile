@@ -7,6 +7,8 @@ export interface LoginInfo {
   id: number;
   roleName: string;
   roleFlag: string;
+  email: string;
+  tell: string;
   loginId: string;
   name: string;
 }

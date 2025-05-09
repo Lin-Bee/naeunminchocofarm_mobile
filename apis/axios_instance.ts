@@ -4,8 +4,8 @@ import * as SecureStore from 'expo-secure-store';
 import { apiHost } from '~/lib/app_config';
 
 export const axiosInstance = axios.create({
-  // baseURL: Platform.OS === 'ios' ? 'http://localhost:8081' : 'http://10.0.2.2:8081'
-  baseURL: Platform.OS === 'ios' ? apiHost : apiHost,
+  baseURL: Platform.OS === 'ios' ? 'http://localhost:8081' : 'http://10.0.2.2:8081'
+  // baseURL: Platform.OS === 'ios' ? apiHost : apiHost,
 });
 
 axiosInstance.interceptors.request.use(
@@ -27,3 +27,4 @@ axiosInstance.interceptors.request.use(
   },
   (error) => Promise.reject(error)
 );
+
