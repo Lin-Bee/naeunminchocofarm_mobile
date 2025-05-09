@@ -12,7 +12,7 @@ interface HeaderProps{
 export default function Header({scrollY}:HeaderProps) {
   const router = useRouter();
   const pathname = usePathname();
-  const loginInfo = useLoginInfo(); //현재 로그인 정보
+  const loginInfo = useLoginInfo(); 
 
   const headerBgColor = scrollY.interpolate({
     inputRange:[0,100],
@@ -42,12 +42,12 @@ export default function Header({scrollY}:HeaderProps) {
             </Pressable>
           )}
           <Text className={`text-2xl font-bold ${isWhiteTitle ? 'text-white' : 'text-black'}`}>
-          HOME
-        </Text>
+            HOME
+          </Text>
         </View>
 
         <View className="flex-row">
-        <Ionicons className='mr-2' name="notifications-outline" size={24} color="black" />
+          <Ionicons className='mr-2' name="notifications-outline" size={24} color="black" />
         </View>
       </View>
     </Animated.View>
